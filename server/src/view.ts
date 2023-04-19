@@ -152,7 +152,7 @@ export class PaintShopView {
             Athena.player.emit.notification(player, PAINTSHOP_LOCALE.MUST_BE_IN_A_VEHICLE);
             return;
         }
-        // Probiren
+        
         if (Athena.vehicle.tempVehicles.has(player.vehicle)) {
             Athena.player.emit.notification(player, PAINTSHOP_LOCALE.CANNOT_BE_MODIFIED);
             return;

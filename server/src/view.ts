@@ -131,6 +131,14 @@ export class PaintShopView {
             true,
             false,
         );
+
+        Athena.controllers.interaction.append({
+            uid: `paint-shop-${shop.uid}`,
+            position: shop.vertices[0],
+            description: 'Paint Vehicle Press E',
+            debug: false,
+        });
+
         polygon.addEnterCallback(PaintShopView.enter);
         polygon.addLeaveCallback(PaintShopView.leave);
         return shop.uid;
@@ -152,7 +160,7 @@ export class PaintShopView {
             Athena.player.emit.notification(player, PAINTSHOP_LOCALE.MUST_BE_IN_A_VEHICLE);
             return;
         }
-        
+
         if (Athena.vehicle.tempVehicles.has(player.vehicle)) {
             Athena.player.emit.notification(player, PAINTSHOP_LOCALE.CANNOT_BE_MODIFIED);
             return;
@@ -165,10 +173,11 @@ export class PaintShopView {
         function callback() {
             console.log(`User pressed a key after entering the area!`);
         }
-        //Athena.controllers.interaction.append ()
+
         inShop[player.id] = true;
 
         Athena.player.emit.sound2D(player, 'shop_enter', 0.5);
+
         /*
         Athena.player.emit.interactionAdd(player, {
             keyPress: 'E',
@@ -177,15 +186,8 @@ export class PaintShopView {
         });
         */
 
-        alt.emitClient(player, SYSTEM_EVENTS.INTERACTION_TEXT_CREATE, {
-            keyPress: 'E',
-            description: PAINTSHOP_LOCALE.OPEN_MENU,
-            uid: polygon.uid,
-        });
-
         alt.log('player key work');
 
-        //Athena.player.emit.interactionTemporary(player, Paintshop_View_Events.OPEN);
         alt.emitClient(player, SYSTEM_EVENTS.INTERACTION_TEMPORARY, Paintshop_View_Events.OPEN);
     }
 
@@ -203,9 +205,7 @@ export class PaintShopView {
 
         inShop[player.id] = false;
         delete inShop[player.id];
-        //Athena.player.emit.interactionRemove(player, polygon.uid);
         alt.emitClient(player, SYSTEM_EVENTS.INTERACTION_TEXT_REMOVE, polygon.uid);
-        //Athena.player.emit.interactionTemporary(player, null);
         alt.emitClient(player, SYSTEM_EVENTS.INTERACTION_TEMPORARY, null);
     }
 
@@ -336,8 +336,6 @@ export class PaintShopView {
         }
 
         InternalFunctions.updatePaint(player.vehicle);
-        //Athena.vehicle.funcs.save(player.vehicle, vehicleData);
         Athena.document.vehicle.set(player.vehicle, 'vehicle', vehicleData);
-        //Athena.document.vehicle.set(player.vehicle, 'vehicle', vehicleData);
     }
 }

@@ -135,7 +135,7 @@ export class PaintShopView {
         Athena.controllers.interaction.append({
             uid: `paint-shop-${shop.uid}`,
             position: shop.vertices[0],
-            description: 'Paint Vehicle Press E',
+            description: 'Paint Vehicle Press shift + E',
             debug: false,
         });
 
